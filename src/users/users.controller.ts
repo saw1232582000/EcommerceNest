@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Param,
   ParseIntPipe,
   Post,
@@ -10,16 +11,21 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserZodValidationPipe } from 'src/pipes/user/user-pipes';
-import { createUserDto, createUserSchema } from 'src/pipes/user/user-type';
-import { CreateUserDto } from './dto/create-user-dto';
+import { UserZodValidationPipe } from 'src/users/pipes/user/user-pipes';
+import {
+  createUserDto,
+  createUserSchema,
+} from 'src/users/pipes/user/user-type';
+
+import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
+import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
 
 @Controller('users')
 export class UsersController {
-  //   @Get()
-  //   finaAll() {
-  //     return 'This route return all users';
-  //   }
+  constructor(
+    // @Inject()
+    private readonly createUserUseCase: CreateUserUseCase,
+  ) {}
 
   @Get()
   findOne(@Query() query: { id: string; name: string }) {
@@ -44,7 +50,12 @@ export class UsersController {
   // }
 
   @Post()
-  create(@Body(new ValidationPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) user: CreateUserDto) {
-    return JSON.stringify(user);
+  public async create(
+    @Body(
+      new ValidationPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    user: CreateUserDto,
+  ) {
+    return await this.createUserUseCase.execute(user);
   }
 }
