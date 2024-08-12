@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
 import { LocalUserRepository } from 'src/core/domain/user/Repository/LocalUserRepository';
 import { IUserRepository } from 'src/core/domain/user/port/repository-port/IUserRepositoryPort';
+import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
 
 @Module({
   controllers: [UsersController],
@@ -12,7 +13,7 @@ import { IUserRepository } from 'src/core/domain/user/port/repository-port/IUser
     UsersService,
     {
       provide: IUserRepository,
-      useClass: LocalUserRepository,
+      useClass: PrismaUserRepository,
     },
   ],
 })

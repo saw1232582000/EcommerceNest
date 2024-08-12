@@ -20,6 +20,8 @@ import {
 import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
 import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
 import { LocalUserRepository } from 'src/core/domain/user/Repository/LocalUserRepository';
+import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
+import { PrismaClient } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -57,7 +59,7 @@ export class UsersController {
     )
     user: CreateUserDto,
   ) {
-    this.createUserUseCase=new CreateUserUseCase(new LocalUserRepository())
+    this.createUserUseCase=new CreateUserUseCase(new PrismaUserRepository(new PrismaClient()))
     return await this.createUserUseCase.execute(user);
   }
 }

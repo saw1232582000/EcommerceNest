@@ -10,7 +10,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
   constructor(@Inject()private readonly userRepository: IUserRepository) {}
   public async execute(data?: CreateUserDto): Promise<any> {
     const newUser = new UserEntity(
-      '4',
+      null,
       data?.name,
       data?.email,
       data?.role,

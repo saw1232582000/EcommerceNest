@@ -8,7 +8,7 @@ const LocalUsers: UserEntity[] = [
     email: 'user1@gmail.com',
     role: 'SELLER',
     password: 'user123456',
-    createDate: new Date(),
+    createdDate: new Date(),
     updatedDate: new Date(),
   },
   {
@@ -17,7 +17,7 @@ const LocalUsers: UserEntity[] = [
     email: 'user2@gmail.com',
     role: 'SELLER',
     password: 'user123456',
-    createDate: new Date(),
+    createdDate: new Date(),
     updatedDate: new Date(),
   },
   {
@@ -26,13 +26,14 @@ const LocalUsers: UserEntity[] = [
     email: 'user3@gmail.com',
     role: 'SELLER',
     password: 'user123456',
-    createDate: new Date(),
+    createdDate: new Date(),
     updatedDate: new Date(),
   },
 ];
 
 export class LocalUserRepository implements IUserRepository {
   async create(user: UserEntity): Promise<boolean> {
+    console.log("local repo")
     return true;
   }
   async update(user: UserEntity): Promise<boolean> {
