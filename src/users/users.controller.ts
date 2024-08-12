@@ -19,12 +19,13 @@ import {
 
 import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
 import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
+import { LocalUserRepository } from 'src/core/domain/user/Repository/LocalUserRepository';
 
 @Controller('users')
 export class UsersController {
   constructor(
     // @Inject()
-    private readonly createUserUseCase: CreateUserUseCase,
+    private createUserUseCase: CreateUserUseCase,
   ) {}
 
   @Get()
@@ -56,6 +57,7 @@ export class UsersController {
     )
     user: CreateUserDto,
   ) {
+    this.createUserUseCase=new CreateUserUseCase(new LocalUserRepository())
     return await this.createUserUseCase.execute(user);
   }
 }
