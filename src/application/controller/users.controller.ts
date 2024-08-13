@@ -11,11 +11,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserZodValidationPipe } from 'src/users/pipes/user/user-pipes';
-import {
-  createUserDto,
-  createUserSchema,
-} from 'src/users/pipes/user/user-type';
+
+
 
 import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
 import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
