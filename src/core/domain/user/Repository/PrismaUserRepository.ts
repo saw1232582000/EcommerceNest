@@ -103,9 +103,7 @@ export class PrismaUserRepository implements IUserRepository {
     try {
       const user = await this.prisma.user.findFirst({
         where: {
-          id: { contains: by.id || '' },
-          email: { contains: by.email || '' },
-          name: { contains: by.name || '' },
+          ...by
         },
       });
 

@@ -9,6 +9,8 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Request,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,6 +20,7 @@ import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
 
 import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
 import { PrismaClient } from '@prisma/client';
+import { JwtGuard } from '../auth/guard/jwt.guard';
 
 @Controller('users')
 export class UsersController {
@@ -26,9 +29,10 @@ export class UsersController {
     private createUserUseCase: CreateUserUseCase,
   ) {}
 
+  @UseGuards(JwtGuard)
   @Get()
-  findOne(@Query() query: { id: string; name: string }) {
-    return `This is the requested user id:${query.id} and name is ${query.name}`;
+  findOne(@Request() req) {
+    return req.user
   }
 
   @Get('/get-one-user/:id')

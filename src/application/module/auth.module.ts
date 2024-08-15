@@ -7,11 +7,13 @@ import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUser
 import { LocalStrategy } from '../auth/passport/local.strategy';
 import { UsersModule } from './users.module';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from '../auth/passport/jwt.strategy';
+import { env } from 'process';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: '1234',
+      secret: env.JWT_SECRET_KEY,
       signOptions: { expiresIn: '1h' },
     }),
     UsersModule,
@@ -25,6 +27,7 @@ import { PassportModule } from '@nestjs/passport';
       useClass: PrismaUserRepository,
     },
     LocalStrategy,
+    JwtStrategy,
   ],
 })
 export class AuthModule {}
