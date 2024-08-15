@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   HttpStatus,
   Inject,
   Param,
@@ -12,11 +13,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-
-
 import { CreateUserUseCase } from 'src/core/domain/user/service/CreateUserUsecase';
 import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
-import { LocalUserRepository } from 'src/core/domain/user/Repository/LocalUserRepository';
+
 import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
 import { PrismaClient } from '@prisma/client';
 
@@ -50,13 +49,16 @@ export class UsersController {
   // }
 
   @Post()
+  @HttpCode(HttpStatus.OK)
   public async create(
     @Body(
       new ValidationPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     user: CreateUserDto,
   ) {
-    this.createUserUseCase=new CreateUserUseCase(new PrismaUserRepository(new PrismaClient()))
+    this.createUserUseCase = new CreateUserUseCase(
+      new PrismaUserRepository(new PrismaClient()),
+    );
     return await this.createUserUseCase.execute(user);
   }
 }

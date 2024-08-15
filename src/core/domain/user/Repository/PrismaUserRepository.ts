@@ -51,10 +51,10 @@ export class PrismaUserRepository implements IUserRepository {
       await this.prisma.user.update({
         where: { id: user.id },
         data: {
-          email:user?.email,
-          name:user?.name,
-          password:user?.password,
-          role:user?.role,
+          email: user?.email,
+          name: user?.name,
+          password: user?.password,
+          role: user?.role,
           updatedDate: new Date(),
         },
       });
@@ -95,11 +95,36 @@ export class PrismaUserRepository implements IUserRepository {
       }
     }
   }
-  async find(id: string): Promise<UserEntity | null> {
-    const user = await this.prisma.user.findFirst({
-      where: { id: id },
-    });
-    return UserEntity.toEntity(user);
+  async find(by: {
+    id?: string;
+    email?: string;
+    name?: string;
+  }): Promise<UserEntity | null> {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          id: { contains: by.id || '' },
+          email: { contains: by.email || '' },
+          name: { contains: by.name || '' },
+        },
+      });
+
+      if (user) return UserEntity.toEntity(user);
+      else return null;
+    } catch (e) {
+      if (e instanceof PrismaClientValidationError) {
+        throw new InternalServerErrorException('Something bad happened', {
+          cause: new Error(),
+          description: e.message,
+        });
+      }
+      if (e instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException('Something bad happened', {
+          cause: new Error(),
+          description: e.code,
+        });
+      }
+    }
   }
   async findAll(): Promise<UserEntity[]> {
     const users = await this.prisma.user.findMany({});

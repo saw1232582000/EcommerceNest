@@ -4,10 +4,12 @@ import { AppService } from './app.service';
 import { UsersModule } from './application/module/users.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { AuthModule } from './application/module/auth.module';
 
 @Module({
   imports: [
     UsersModule,
+    AuthModule,
     ThrottlerModule.forRoot([
       {
         name: 'short',

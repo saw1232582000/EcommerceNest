@@ -33,7 +33,7 @@ const LocalUsers: UserEntity[] = [
 
 export class LocalUserRepository implements IUserRepository {
   async create(user: UserEntity): Promise<boolean> {
-    console.log("local repo")
+    console.log('local repo');
     return true;
   }
   async update(user: UserEntity): Promise<boolean> {
@@ -42,8 +42,12 @@ export class LocalUserRepository implements IUserRepository {
   async delete(id: string): Promise<boolean> {
     return true;
   }
-  async find(id: string): Promise<UserEntity | null> {
-    return LocalUsers.filter((user) => user.id === id)[0];
+  async find(by: {
+    id?: string;
+    email?: string;
+    name?: string;
+  }): Promise<UserEntity | null> {
+    return LocalUsers.filter((user) => user.id === by.id)[0];
   }
   async findAll(): Promise<UserEntity[]> {
     return LocalUsers;

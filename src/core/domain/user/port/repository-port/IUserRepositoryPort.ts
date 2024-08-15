@@ -3,11 +3,12 @@ import { UserEntity } from '../../entity/user';
 import { Injectable } from '@nestjs/common';
 
 
+
 @Injectable()
-export abstract class IUserRepository implements IBaseRepository<UserEntity> {
+export abstract class IUserRepository implements IBaseRepository<UserEntity,{id?:string,email?:string,name?:string}> {
     create: (entity: UserEntity) => Promise<boolean>;
     delete: (id: string) => Promise<boolean>;
-    find: (id: string) => Promise<UserEntity>;
+    find: (by: {id?:string,email?:string,name?:string}) => Promise<UserEntity | null>;
     findAll: () => Promise<UserEntity[]>;
     update: (entity: UserEntity) => Promise<boolean>;
 }
