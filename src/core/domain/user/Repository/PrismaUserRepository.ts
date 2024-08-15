@@ -3,12 +3,17 @@ import { UserEntity } from '../entity/User';
 import { IUserRepository } from '../port/repository-port/IUserRepositoryPort';
 import {
   BadRequestException,
+  HttpCode,
+  HttpException,
+  HttpStatus,
   InternalServerErrorException,
 } from '@nestjs/common';
 import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from '@prisma/client/runtime/library';
+import { HTTP_CODE_METADATA } from '@nestjs/common/constants';
+import { CoreApiResonseSchema } from 'src/core/common/schema/ApiResponseSchema';
 
 export class PrismaUserRepository implements IUserRepository {
   constructor(public readonly prisma: PrismaClient) {}
@@ -27,10 +32,13 @@ export class PrismaUserRepository implements IUserRepository {
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code == 'P2002') {
-          throw new BadRequestException('Bad Request', {
-            cause: new Error(),
-            description: 'Email already used',
-          });
+          throw new BadRequestException(
+            CoreApiResonseSchema.error(
+              HttpStatus.BAD_REQUEST,
+              'Bad Request',
+              'Email already used',
+            ),
+          );
         } else {
           throw new BadRequestException('Bad Request', {
             cause: new Error(),
@@ -103,7 +111,7 @@ export class PrismaUserRepository implements IUserRepository {
     try {
       const user = await this.prisma.user.findFirst({
         where: {
-          ...by
+          ...by,
         },
       });
 

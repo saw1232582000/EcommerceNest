@@ -21,6 +21,7 @@ import { CreateUserDto } from 'src/core/domain/user/dto/CreateUserDto';
 import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
 import { PrismaClient } from '@prisma/client';
 import { JwtGuard } from '../auth/guard/jwt.guard';
+import { CoreApiResonseSchema } from 'src/core/common/schema/ApiResponseSchema';
 
 @Controller('users')
 export class UsersController {
@@ -31,26 +32,9 @@ export class UsersController {
 
   @UseGuards(JwtGuard)
   @Get()
-  findOne(@Request() req) {
-    return req.user
+  async findOne(@Request() req): Promise<CoreApiResonseSchema<any>> {
+    return CoreApiResonseSchema.success(req.user);
   }
-
-  @Get('/get-one-user/:id')
-  findOneByEmail(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
-    id: number,
-  ) {
-    return id;
-  }
-
-  // @Post()
-  // @UsePipes(new UserZodValidationPipe(createUserSchema))
-  // create(@Body() user: createUserDto) {
-  //   return JSON.stringify(user);
-  // }
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -59,10 +43,11 @@ export class UsersController {
       new ValidationPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     user: CreateUserDto,
-  ) {
+  ): Promise<CoreApiResonseSchema<any>> {
     this.createUserUseCase = new CreateUserUseCase(
       new PrismaUserRepository(new PrismaClient()),
     );
-    return await this.createUserUseCase.execute(user);
+    await this.createUserUseCase.execute(user);
+    return CoreApiResonseSchema.success('user registered successfully');
   }
 }
