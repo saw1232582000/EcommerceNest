@@ -1,3 +1,5 @@
+import { UserRole } from "src/core/common/type/UserEnum";
+
 export class UserEntity {
   id: string;
 
@@ -5,7 +7,7 @@ export class UserEntity {
 
   email: string;
 
-  role: 'SELLER' | 'BUYER' | 'ADMIN';
+  role: UserRole;
 
   password: string;
 
@@ -17,7 +19,7 @@ export class UserEntity {
     id: string = "",
     name: string,
     email: string,
-    role: 'SELLER' | 'BUYER' | 'ADMIN',
+    role: UserRole,
     password: string,
     createdDate?: Date,
     updatedDate?: Date,

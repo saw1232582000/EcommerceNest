@@ -1,17 +1,32 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Expose, plainToInstance } from 'class-transformer';
+import { UserRole } from 'src/core/common/type/UserEnum';
+import { UserEntity } from '../entity/user';
+import { Nullable } from 'src/core/common/type/CommonTypes';
 
 export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
+  id: Nullable<string>;
+
+  @Expose()
   name: string;
 
-  @IsEmail()
+  @Expose()
   email: string;
 
-  @IsEnum(['SELLER', 'BUYER', 'ADMIN'], { message: 'Valid Role is required' })
-  role: 'SELLER' | 'BUYER' | 'ADMIN';
+  @Expose()
+  role: UserRole;
 
-  @IsString()
-  @IsNotEmpty()
   password: string;
+
+  @Expose()
+  createdDate: Nullable<Date>;
+
+  @Expose()
+  updatedDate: Nullable<Date>;
+
+  public static convertToClass(user: UserEntity) {
+    return plainToInstance(CreateUserDto, user, {
+      excludeExtraneousValues: true,
+    });
+  }
 }

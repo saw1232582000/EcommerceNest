@@ -18,9 +18,9 @@ import { CoreApiResonseSchema } from 'src/core/common/schema/ApiResponseSchema';
 export class PrismaUserRepository implements IUserRepository {
   constructor(public readonly prisma: PrismaClient) {}
 
-  async create(user: UserEntity): Promise<boolean> {
+  async create(user: UserEntity): Promise<UserEntity> {
     try {
-      await this.prisma.user.create({
+      const result = await this.prisma.user.create({
         data: {
           email: user.email,
           name: user.name,
@@ -28,7 +28,7 @@ export class PrismaUserRepository implements IUserRepository {
           role: user.role,
         },
       });
-      return true;
+      return UserEntity.toEntity(result);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code == 'P2002') {
@@ -54,9 +54,9 @@ export class PrismaUserRepository implements IUserRepository {
       }
     }
   }
-  async update(user: UserEntity): Promise<boolean> {
+  async update(user: UserEntity): Promise<UserEntity> {
     try {
-      await this.prisma.user.update({
+      const result = await this.prisma.user.update({
         where: { id: user.id },
         data: {
           email: user?.email,
@@ -66,7 +66,7 @@ export class PrismaUserRepository implements IUserRepository {
           updatedDate: new Date(),
         },
       });
-      return true;
+      return UserEntity.toEntity(result);
     } catch (e) {
       if (e instanceof PrismaClientValidationError) {
         throw new InternalServerErrorException('Something bad happened', {

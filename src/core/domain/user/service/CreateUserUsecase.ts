@@ -17,7 +17,8 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       data?.password,
     );
     const createdUser=await this.userRepository.create(newUser);
+    
     //newUser.id=createdUser.
-    return newUser;
+    return CreateUserDto.convertToClass(createdUser)
   }
 }
