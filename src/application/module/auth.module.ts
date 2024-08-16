@@ -3,7 +3,7 @@ import { AuthController } from '../controller/auth.controller';
 import { AuthService } from 'src/core/domain/auth/service/Authservice';
 import { JwtModule } from '@nestjs/jwt';
 import { IUserRepository } from 'src/core/domain/user/port/repository-port/IUserRepositoryPort';
-import { PrismaUserRepository } from 'src/core/domain/user/Repository/PrismaUserRepository';
+import { PrismaUserRepository } from 'src/core/domain/user/repository/PrismaUserRepository';
 import { LocalStrategy } from '../auth/passport/local.strategy';
 import { UsersModule } from './users.module';
 import { PassportModule } from '@nestjs/passport';

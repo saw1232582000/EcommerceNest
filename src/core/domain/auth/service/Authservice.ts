@@ -3,7 +3,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { SinginUserDto } from '../dto/SigninUserDto';
 import { JwtService } from '@nestjs/jwt';
 import { IUserRepository } from '../../user/port/repository-port/IUserRepositoryPort';
-import { PrismaUserRepository } from '../../user/Repository/PrismaUserRepository';
+import { PrismaUserRepository } from '../../user/repository/PrismaUserRepository';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
