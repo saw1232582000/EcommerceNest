@@ -9,6 +9,7 @@ async function bootstrap() {
     .setDescription('This is Ecommerce REST API')
     .setVersion('1.0')
     // .addTag('cats')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -3,27 +3,27 @@ import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { UserRole } from 'src/core/common/type/UserEnum';
 import { BaseResponseSchema } from '../../common/BaseResponseSchema';
 
-class CreateUserResponse {
+class GetUserResponse {
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  id: string;
+
+  @ApiProperty()
   name: string;
 
   @ApiProperty()
-  @IsEmail()
   email: string;
 
   @ApiProperty()
-  @IsEnum(UserRole, { message: 'Valid Role is required' })
   role: UserRole;
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  password: string;
+  createdDate: Date;
+
+  @ApiProperty({ type: Date })
+  updatedDate: Date;
 }
 
-export class CreateUserResonseSchema extends BaseResponseSchema<CreateUserResponse> {
-  @ApiProperty({ type: CreateUserResponse })
-  public data: CreateUserResponse;
+export class GetUserResonseSchema extends BaseResponseSchema<GetUserResponse> {
+  @ApiProperty({ type: GetUserResponse })
+  public data: GetUserResponse;
 }

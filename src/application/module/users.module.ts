@@ -8,13 +8,14 @@ import { PrismaUserRepository } from 'src/core/domain/user/repository/PrismaUser
 import { JwtGuard } from '../auth/guard/jwt.guard';
 import { AuthModule } from './auth.module';
 import { AuthService } from 'src/core/domain/auth/service/Authservice';
+import { GetUserUseCase } from 'src/core/domain/user/service/GetUserUsecase';
 
 @Module({
   controllers: [UsersController],
   providers: [
     CreateUserUseCase,
     JwtGuard,
-
+    GetUserUseCase,
     {
       provide: IUserRepository,
       useClass: PrismaUserRepository,

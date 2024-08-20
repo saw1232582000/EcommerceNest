@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { UserRole } from 'src/core/common/type/UserEnum';
 
-
 export class CreateUserSchema {
   @ApiProperty()
   @IsString()

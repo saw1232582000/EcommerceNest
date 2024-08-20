@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BaseResponseSchema {
+export class BaseResponseSchema<T> {
   @ApiProperty({ type: 'string' })
   public message: string;
 
@@ -8,5 +8,5 @@ export class BaseResponseSchema {
   public code: number;
 
   @ApiProperty({ type: 'object' })
-  public data: unknown;
+  public data: T;
 }

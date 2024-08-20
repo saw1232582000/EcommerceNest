@@ -25,20 +25,30 @@ import { CoreApiResonseSchema } from 'src/core/common/schema/ApiResponseSchema';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserSchema } from './documentation/user/RequsetSchema/CreateUserSchema';
 import { CreateUserResonseSchema } from './documentation/user/ResponseSchema/CreateUserResponseSchema';
+import { GetUserUseCase } from 'src/core/domain/user/service/GetUserUsecase';
+import { GetUserResonseSchema } from './documentation/user/ResponseSchema/GetUserResponseSchema';
 
-@Controller('users')
-@ApiBearerAuth()
+@Controller('User')
 @ApiTags('users')
 export class UsersController {
   constructor(
     // @Inject()
+    private getUserUseCase: GetUserUseCase,
     private createUserUseCase: CreateUserUseCase,
   ) {}
 
+  @ApiBearerAuth()
   @UseGuards(JwtGuard)
+  @ApiResponse({ type: GetUserResonseSchema })
   @Get()
   async findOne(@Request() req): Promise<CoreApiResonseSchema<any>> {
-    return CoreApiResonseSchema.success(req.user);
+    this.getUserUseCase = new GetUserUseCase(
+      new PrismaUserRepository(new PrismaClient()),
+    );
+
+    return CoreApiResonseSchema.success(
+      await this.getUserUseCase.execute(req.user?.user?.id),
+    );
   }
 
   @Post()
