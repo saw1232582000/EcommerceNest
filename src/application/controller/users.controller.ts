@@ -23,10 +23,11 @@ import { PrismaClient } from '@prisma/client';
 import { JwtGuard } from '../auth/guard/jwt.guard';
 import { CoreApiResonseSchema } from 'src/core/common/schema/ApiResponseSchema';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserSchema } from './documentation/user/RequsetSchema/CreateUserSchema';
+
 import { CreateUserResonseSchema } from './documentation/user/ResponseSchema/CreateUserResponseSchema';
 import { GetUserUseCase } from 'src/core/domain/user/service/GetUserUsecase';
 import { GetUserResonseSchema } from './documentation/user/ResponseSchema/GetUserResponseSchema';
+import { CreateUserSchema } from './documentation/user/RequsetSchema/CreateUserRequestSchema';
 
 @Controller('User')
 @ApiTags('users')

@@ -5,22 +5,22 @@ import { BaseResponseSchema } from '../../common/BaseResponseSchema';
 
 class CreateUserResponse {
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  id: string;
+
+  @ApiProperty()
   name: string;
 
   @ApiProperty()
-  @IsEmail()
   email: string;
 
   @ApiProperty()
-  @IsEnum(UserRole, { message: 'Valid Role is required' })
   role: UserRole;
 
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  password: string;
+  createdDate: string;
+
+  @ApiProperty()
+  updatedDate: string;
 }
 
 export class CreateUserResonseSchema extends BaseResponseSchema<CreateUserResponse> {

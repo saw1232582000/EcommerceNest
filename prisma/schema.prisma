@@ -21,4 +21,26 @@ model User {
   password  String
   createdDate            DateTime         @default(now())
   updatedDate            DateTime         @default(now())
+
+  products   Product[]
+}
+
+model Product{
+  id String  @id @default(cuid())
+
+  name String
+
+  price Int
+
+  description String
+
+  category String
+
+  createdDate DateTime         @default(now())
+
+  updatedDate DateTime         @default(now())
+
+  userId        String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

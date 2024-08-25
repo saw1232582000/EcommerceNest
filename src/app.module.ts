@@ -5,11 +5,13 @@ import { UsersModule } from './application/module/users.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './application/module/auth.module';
+import { ProductModule } from './application/module/product.module';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
+    ProductModule,
     ThrottlerModule.forRoot([
       {
         name: 'short',
