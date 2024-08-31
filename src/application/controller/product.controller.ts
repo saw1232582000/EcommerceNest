@@ -105,7 +105,7 @@ export class ProductController {
   public async get(@Req() req, @Query() params: { id: string }) {
     this.getProductUsecase = new GetProductUseCase(
       new PrismaProductRepository(new PrismaClient()),
-    );
+    );  
 
     return CoreApiResonseSchema.success(
       await this.getProductUsecase.execute(params.id),

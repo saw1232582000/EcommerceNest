@@ -21,8 +21,10 @@ model User {
   password  String
   createdDate            DateTime         @default(now())
   updatedDate            DateTime         @default(now())
-
+  
   products   Product[]
+  cart       Cart?  
+  orders      Order[]
 }
 
 model Product{
@@ -43,4 +45,49 @@ model Product{
   userId        String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  cartItem CartItem[]
+  orderItems OrderItem[]
+
+}
+
+model Cart {
+  id       String     @id @default(cuid())
+  userId   String     @unique
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdDate            DateTime         @default(now())
+  updatedDate            DateTime         @default(now())
+}
+
+model Order {
+  Id                 String             @id @default(cuid())
+  userId             String
+  address            String
+  status             String?             
+  billingPhoneNumber String
+  createdDate        DateTime           @default(now())
+  updatedDate        DateTime           @default(now())
+  orderItems   OrderItem[]
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OrderItem {
+  Id             String         @id @default(cuid())
+  orderId        String
+  productId      String
+  status         String?
+  quantity       Int            @default(1)
+  createdDate        DateTime           @default(now())
+  order Order @relation(fields: [orderId], references: [Id], onDelete: Cascade)
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

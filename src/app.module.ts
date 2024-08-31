@@ -6,12 +6,16 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './application/module/auth.module';
 import { ProductModule } from './application/module/product.module';
+import { CartModule } from './application/module/cart.module';
+import { OrderModule } from './application/module/order.module';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
     ProductModule,
+    CartModule,
+    OrderModule,
     ThrottlerModule.forRoot([
       {
         name: 'short',
